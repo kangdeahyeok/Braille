@@ -12,13 +12,13 @@ import org.koin.core.context.startKoin
 
 class MyApplication : Application() {
 
-    init{
+    init {
         instance = this
     }
 
     companion object {
         lateinit var instance: MyApplication
-        fun applicationContext() : Context {
+        fun applicationContext(): Context {
             return instance.applicationContext
         }
     }

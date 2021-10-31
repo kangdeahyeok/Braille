@@ -9,8 +9,8 @@ val viewModelModule = module {
     viewModel { MainViewModel(get()) }
 }
 
-val repositoryModule = module{
-    single{
+val repositoryModule = module {
+    single {
         Repository()
     }
 }

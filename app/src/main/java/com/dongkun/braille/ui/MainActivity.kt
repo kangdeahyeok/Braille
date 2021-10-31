@@ -42,15 +42,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val intent = result.data
-            viewModel.onClickConnect()
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent = result.data
+                viewModel.onClickConnect()
+            }
         }
-    }
 
 
-    private fun initObserving(){
+    private fun initObserving() {
 
         //Progress
         viewModel.inProgress.observe(this, {
@@ -102,21 +103,23 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
     private fun hasPermissions(context: Context?, permissions: Array<String>): Boolean {
         for (permission in permissions) {
             if (context?.let { ActivityCompat.checkSelfPermission(it, permission) }
-                    != PackageManager.PERMISSION_GRANTED
+                != PackageManager.PERMISSION_GRANTED
             ) {
                 return false
             }
         }
         return true
     }
+
     // Permission check
     override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<String?>,
-            grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
@@ -137,7 +140,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.txtRead.set("here you can see the message come")
     }
 
-    override fun onPause(){
+    override fun onPause() {
         super.onPause()
         viewModel.unregisterReceiver()
     }
