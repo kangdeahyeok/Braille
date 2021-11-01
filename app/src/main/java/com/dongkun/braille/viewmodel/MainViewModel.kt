@@ -64,363 +64,174 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun onClickSendData(sendTxt: String) {
-        var cho = ((sendTxt[0] - '\uAC00') / 28) / 21
-        var cho2 = Hangul().CHO[cho]
-        when (cho2) {
-            "ㄱ" -> {
-                repository.toArduino(0, 4, 1)
-
-            }
-            "ㄲ" -> {
-                repository.toArduino(0, 1, 1)
-                Handler().postDelayed({
-                    repository.toArduino(0, 4, 1)
-                }, 1000L)
-
-            }
-            "ㄴ" -> {
-                repository.toArduino(4, 4, 1)
-
-            }
-            "ㄷ" -> {
-                repository.toArduino(2, 4, 1)
-
-            }
-            "ㄸ" -> {
-                repository.toArduino(0, 1, 1)
-                Handler().postDelayed({
-                    repository.toArduino(2, 4, 1)
-                }, 1000L)
-
-            }
-            "ㄹ" -> {
-                repository.toArduino(0, 2, 1)
-
-            }
-            "ㅁ" -> {
-                repository.toArduino(4, 2, 1)
-
-            }
-            "ㅂ" -> {
-                repository.toArduino(0, 6, 1)
-
-            }
-            "ㅃ" -> {
-                repository.toArduino(0, 1, 1)
-                Handler().postDelayed({
-                    repository.toArduino(0, 6, 1)
-                }, 1000L)
-
-            }
-            "ㅅ" -> {
-                repository.toArduino(0, 1, 1)
-
-            }
-            "ㅆ" -> {
-                repository.toArduino(0, 1, 1)
-                Handler().postDelayed({
-                    repository.toArduino(0, 1, 1)
-                }, 1000L)
-
-            }
-            "ㅇ" -> {
-                repository.toArduino(0, 0, 1)
-
-            }
-            "ㅈ" -> {
-                repository.toArduino(0, 5, 1)
-
-            }
-            "ㅉ" -> {
-                repository.toArduino(0, 1, 1)
-                Handler().postDelayed({
-                    repository.toArduino(0, 5, 1)
-                }, 1000L)
-
-            }
-            "ㅊ" -> {
-                repository.toArduino(0, 3, 1)
-
-            }
-            "ㅋ" -> {
-                repository.toArduino(6, 4, 1)
-
-            }
-            "ㅌ" -> {
-                repository.toArduino(6, 2, 1)
-
-            }
-            "ㅍ" -> {
-                repository.toArduino(4, 6, 1)
-
-            }
-            "ㅎ" -> {
-                repository.toArduino(2, 6, 1)
+        // 권동원 211101
+        when {
+            sendTxt[0].toString() == "것" -> {
+                repository.toArduino(Integer.parseInt("000", 2), Integer.parseInt("111", 2), 1)
+                repository.toArduino(Integer.parseInt("011", 2), Integer.parseInt("100", 2), 1)
 
             }
             else -> {
-                //                    toArduino(-1, -1)
-            }
-        }
-        var joong = (sendTxt[0] - '\uAC00') / 28 % 21
-        var joong2 = Hangul().JOONG[joong]
-        when (joong2) {
-            "ㅏ" -> {
-                repository.toArduino(6, 1, 2)
 
-            }
-            "ㅐ" -> {
-                repository.toArduino(7, 2, 2)
+                var cho = ((sendTxt[0] - '\uAC00') / 28) / 21   // 초성
+                var joong = (sendTxt[0] - '\uAC00') / 28 % 21   // 중성
+                var jong = (sendTxt[0] - '\uAC00') % 28         // 종성
+                var cho2 = Hangul(repository).CHO[cho]
+                var joong2 = Hangul(repository).JOONG[joong]
+                var jong2 = Hangul(repository).JONG[jong]
+                when (cho2) {
+                    "ㄱ" -> {
+                        if (joong2 == "ㅏ") {
+                            repository.toArduino(
+                                Integer.parseInt("110", 2),
+                                Integer.parseInt("101", 2),
+                                1
+                            )
+                            Hangul(repository).checkJONG(jong)
 
-            }
-            "ㅑ" -> {
-                repository.toArduino(1, 6, 2)
+                        } else {
+                            repository.toArduino(0, 4, 1)
+                            Hangul(repository).yageo(joong2, jong2, joong, jong)
 
-            }
-            "ㅒ" -> {
-                repository.toArduino(1, 6, 2)
-                Handler().postDelayed({
-                    repository.toArduino(7, 2, 2)
-                }, 1000L)
+                        }
 
-            }
-            "ㅓ" -> {
-                repository.toArduino(3, 4, 2)
+                    }
+                    "ㄲ" -> {
+                        repository.toArduino(0, 1, 1)
+                        if (joong2 == "ㅏ") {
+                            repository.toArduino(
+                                Integer.parseInt("110", 2),
+                                Integer.parseInt("101", 2),
+                                1
+                            )
+                            Hangul(repository).checkJONG(jong)
 
-            }
-            "ㅔ" -> {
-                repository.toArduino(5, 6, 2)
+                        } else {
+                            repository.toArduino(0, 4, 1)
+                            Hangul(repository).yageo(joong2, jong2, joong, jong)
 
-            }
-            "ㅕ" -> {
-                repository.toArduino(4, 3, 2)
+                        }
 
-            }
-            "ㅖ" -> {
-                repository.toArduino(1, 4, 2)
+                    }
+                    "ㄴ" -> {
+                        if (joong2 == "ㅏ") {
+                            repository.toArduino(
+                                Integer.parseInt("100", 2),
+                                Integer.parseInt("100", 2),
+                                1
+                            )
+                            Hangul(repository).checkJONG(jong)
 
-            }
-            "ㅗ" -> {
-                repository.toArduino(5, 1, 2)
+                        } else {
+                            repository.toArduino(4, 4, 1)
+                            Hangul(repository).yageo(joong2, jong2, joong, jong)
 
-            }
-            "ㅘ" -> {
-                repository.toArduino(7, 1, 2)
+                        }
 
-            }
-            "ㅙ" -> {
-                repository.toArduino(7, 1, 2)
-                Handler().postDelayed({
-                    repository.toArduino(7, 2, 2)
-                }, 1000L)
+                    }
+                    "ㄷ" -> {
+                        if (joong2 == "ㅏ") {
+                            repository.toArduino(
+                                Integer.parseInt("010", 2),
+                                Integer.parseInt("100", 2),
+                                1
+                            )
+                            Hangul(repository).checkJONG(jong)
 
-            }
-            "ㅚ" -> {
-                repository.toArduino(5, 7, 2)
+                        } else {
+                            repository.toArduino(2, 4, 1)
+                            Hangul(repository).yageo(joong2, jong2, joong, jong)
 
-            }
-            "ㅛ" -> {
-                repository.toArduino(1, 5, 2)
+                        }
 
-            }
-            "ㅜ" -> {
-                repository.toArduino(5, 4, 2)
+                    }
+                    "ㄸ" -> {
+                        repository.toArduino(0, 1, 1)
+                        if (joong2 == "ㅏ") {
+                            repository.toArduino(
+                                Integer.parseInt("010", 2),
+                                Integer.parseInt("100", 2),
+                                1
+                            )
+                            Hangul(repository).checkJONG(jong)
 
-            }
-            "ㅝ" -> {
-                repository.toArduino(7, 4, 2)
+                        } else {
+                            repository.toArduino(2, 4, 1)
+                            Hangul(repository).yageo(joong2, jong2, joong, jong)
 
-            }
-            "ㅞ" -> {
-                repository.toArduino(7, 4, 2)
-                Handler().postDelayed({
-                    repository.toArduino(7, 2, 2)
-                }, 1000L)
+                        }
 
-            }
-            "ㅟ" -> {
-                repository.toArduino(5, 4, 2)
-                Handler().postDelayed({
-                    repository.toArduino(7, 2, 2)
-                }, 1000L)
+                    }
+                    "ㄹ" -> {
+                        repository.toArduino(0, 2, 1)
 
-            }
-            "ㅠ" -> {
-                repository.toArduino(4, 5, 2)
+                    }
+                    "ㅁ" -> {
+                        repository.toArduino(4, 2, 1)
 
-            }
-            "ㅡ" -> {
-                repository.toArduino(2, 5, 2)
+                    }
+                    "ㅂ" -> {
+                        repository.toArduino(0, 6, 1)
 
-            }
-            "ㅢ" -> {
-                repository.toArduino(2, 7, 2)
+                    }
+                    "ㅃ" -> {
+                        repository.toArduino(0, 1, 1)
+                        Handler().postDelayed({
+                            repository.toArduino(0, 6, 1)
+                        }, 1000L)
 
-            }
-            "ㅣ" -> {
-                repository.toArduino(5, 2, 2)
+                    }
+                    "ㅅ" -> {
+                        repository.toArduino(0, 1, 1)
 
-            }
-            else -> {
-                //                    toArduino(-1, -1)
-            }
-        }
-        var jong = (sendTxt[0] - '\uAC00') % 28
-        var jong2 = Hangul().JONG[jong]
-        when (jong2) {
-            "" -> {
-                repository.toArduino(0, 0, 3)
+                    }
+                    "ㅆ" -> {
+                        repository.toArduino(0, 1, 1)
+                        Handler().postDelayed({
+                            repository.toArduino(0, 1, 1)
+                        }, 1000L)
 
-            }
-            "ㄱ" -> {
-                repository.toArduino(4, 0, 3)
+                    }
+                    "ㅇ" -> {
+                        repository.toArduino(0, 0, 1)
 
-            }
-            "ㄲ" -> {
-                repository.toArduino(4, 0, 3)
-                Handler().postDelayed({
-                    repository.toArduino(4, 0, 3)
-                }, 1000L)
+                    }
+                    "ㅈ" -> {
+                        repository.toArduino(0, 5, 1)
 
-            }
-            "ㄳ" -> {
-                repository.toArduino(4, 0, 3)
-                Handler().postDelayed({
-                    repository.toArduino(1, 0, 3)
-                }, 1000L)
+                    }
+                    "ㅉ" -> {
+                        repository.toArduino(0, 1, 1)
+                        Handler().postDelayed({
+                            repository.toArduino(0, 5, 1)
+                        }, 1000L)
 
-            }
-            "ㄴ" -> {
-                repository.toArduino(2, 2, 3)
+                    }
+                    "ㅊ" -> {
+                        repository.toArduino(0, 3, 1)
 
-            }
-            "ㄵ" -> {
-                repository.toArduino(2, 2, 3)
-                Handler().postDelayed({
-                    repository.toArduino(5, 0, 3)
-                }, 1000L)
+                    }
+                    "ㅋ" -> {
+                        repository.toArduino(6, 4, 1)
 
-            }
-            "ㄶ" -> {
-                repository.toArduino(2, 2, 3)
-                Handler().postDelayed({
-                    repository.toArduino(1, 3, 3)
-                }, 1000L)
+                    }
+                    "ㅌ" -> {
+                        repository.toArduino(6, 2, 1)
 
-            }
-            "ㄷ" -> {
-                repository.toArduino(1, 2, 3)
+                    }
+                    "ㅍ" -> {
+                        repository.toArduino(4, 6, 1)
 
-            }
-            "ㄹ" -> {
-                repository.toArduino(2, 0, 3)
+                    }
+                    "ㅎ" -> {
+                        repository.toArduino(2, 6, 1)
 
-            }
-            "ㄺ" -> {
-                repository.toArduino(2, 0, 3)
-                Handler().postDelayed({
-                    repository.toArduino(4, 0, 3)
-                }, 1000L)
+                    }
+                    else -> {
+                        //                    toArduino(-1, -1)
+                    }
+                }
 
-            }
-            "ㄻ" -> {
-                repository.toArduino(2, 0, 3)
-                Handler().postDelayed({
-                    repository.toArduino(2, 1, 3)
-                }, 1000L)
-
-            }
-            "ㄼ" -> {
-                repository.toArduino(2, 0, 3)
-                Handler().postDelayed({
-                    repository.toArduino(6, 0, 3)
-                }, 1000L)
-
-            }
-            "ㄽ" -> {
-                repository.toArduino(2, 0, 3)
-                Handler().postDelayed({
-                    repository.toArduino(1, 0, 3)
-                }, 1000L)
-
-            }
-            "ㄾ" -> {
-                repository.toArduino(2, 0, 3)
-                Handler().postDelayed({
-                    repository.toArduino(3, 1, 3)
-                }, 1000L)
-
-            }
-            "ㄿ" -> {
-                repository.toArduino(2, 0, 3)
-                Handler().postDelayed({
-                    repository.toArduino(2, 3, 3)
-                }, 1000L)
-
-            }
-            "ㅀ" -> {
-                repository.toArduino(2, 0, 3)
-                Handler().postDelayed({
-                    repository.toArduino(1, 3, 3)
-                }, 1000L)
-
-            }
-            "ㅁ" -> {
-                repository.toArduino(2, 1, 3)
-
-            }
-            "ㅂ" -> {
-                repository.toArduino(6, 0, 3)
-
-            }
-            "ㅄ" -> {
-                repository.toArduino(6, 0, 3)
-                Handler().postDelayed({
-                    repository.toArduino(1, 0, 3)
-                }, 1000L)
-
-            }
-            "ㅅ" -> {
-                repository.toArduino(1, 0, 3)
-
-            }
-            "ㅆ" -> {
-                repository.toArduino(1, 0, 3)
-                Handler().postDelayed({
-                    repository.toArduino(1, 0, 3)
-                }, 1000L)
-
-            }
-            "ㅇ" -> {
-                repository.toArduino(3, 3, 3)
-
-            }
-            "ㅈ" -> {
-                repository.toArduino(5, 0, 3)
-
-            }
-            "ㅊ" -> {
-                repository.toArduino(3, 0, 3)
-
-            }
-            "ㅋ" -> {
-                repository.toArduino(3, 2, 3)
-
-            }
-            "ㅌ" -> {
-                repository.toArduino(3, 1, 3)
-
-            }
-            "ㅍ" -> {
-                repository.toArduino(2, 3, 3)
-
-            }
-            "ㅎ" -> {
-                repository.toArduino(1, 3, 3)
-
-            }
-            else -> {
-                //                    toArduino(-1, -1)
             }
         }
 

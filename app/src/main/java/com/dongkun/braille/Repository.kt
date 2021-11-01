@@ -9,9 +9,12 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.dongkun.braille.di.viewModelModule
+import com.dongkun.braille.ui.MainActivity
 import com.dongkun.braille.util.Event
 import com.dongkun.braille.util.SPP_UUID
 import com.dongkun.braille.util.Util
+import kotlinx.android.synthetic.main.activity_main.*
 import java.io.*
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -127,7 +130,7 @@ class Repository {
 
                             // It only searches for devices with the prefix "RNM" in the Bluetooth device name.
                             if (device_name != null && device_name.length > 4) {
-                                // dongkun(nicky8209) 211030
+                                // 권동원 211030
                                 if (device_name == "Braille") {
                                     // filter your targetDevice and use connectToTargetedDevice()
                                     targetDevice = device
@@ -226,11 +229,30 @@ class Repository {
     }
 
     fun toArduino(first: Int, second: Int, pos: Int) {
+        var ch = '\u2800'       // 점자 베이스
+        val firstBinary = String.format(
+            "%03d", Integer.parseInt(Integer.toBinaryString(first))
+        )
+        val secondBinary = String.format(
+            "%03d", Integer.parseInt(Integer.toBinaryString(second))
+        )
+
+        var recv = ch +
+                Integer.parseInt(
+                    Integer.toHexString(
+                        Integer.parseInt(
+                            (firstBinary + secondBinary + "00").reversed(), 2
+                        )
+                    ), 16
+                )
+
         Thread {
             try {
                 mOutputStream?.write(first + 48) // 프로토콜 전송
                 mOutputStream?.write(second + 48) // 프로토콜 전송
                 mOutputStream?.write(pos + 48) // 프로토콜 전송
+                println(recv)
+
             } catch (e: Exception) {
                 // 문자열 전송 도중 오류가 발생한 경우.
                 e.printStackTrace()
