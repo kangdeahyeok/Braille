@@ -69,7 +69,7 @@ class Repository {
         bluetoothAdapter?.startDiscovery() //블루투스 기기 검색 시작
     }
 
-    fun registerBluetoothReceiver() {
+    private fun registerBluetoothReceiver() {
         //intentfilter
         val stateFilter = IntentFilter()
         stateFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED) //BluetoothAdapter.ACTION_STATE_CHANGED : 블루투스 상태변화 액션
@@ -128,7 +128,7 @@ class Repository {
                             // It only searches for devices with the prefix "RNM" in the Bluetooth device name.
                             if (device_name != null && device_name.length > 4) {
                                 // dongkun(nicky8209) 211030
-                                if (device_name.substring(0, 2) == "MJ") {
+                                if (device_name == "Braille") {
                                     // filter your targetDevice and use connectToTargetedDevice()
                                     targetDevice = device
                                     foundDevice = true
