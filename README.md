@@ -13,5 +13,4 @@
 	* 영상 제작 및 편집
   
 * [강대혁](https://github.com/kangdeahyeok)
-	* 보고서 작성및 3D프린팅 보조
-  
+	* 보고서 작성 및 3D 프린팅 보조  
